@@ -1,0 +1,1351 @@
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibrahim Hossain - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Custom Styles & Animation */
+        :root {
+            /* Light Mode Variables */
+            --primary: #00FFCC; /* BRAND COLOR: Changed from #3498db to #00FFCC */
+            --secondary: #2c3e50; /* Dark color for card background */
+            --background: #f4f7f9;
+            --text-color-light: #6b7280; /* text-gray-600 */
+            --text-color-dark: #1f2937; /* text-gray-900/text-secondary */
+            --card-bg-light: #ffffff; /* bg-white */
+            --card-bg-nav: #ffffff;
+        }
+
+        /* Dark Mode Variables */
+        body.dark-mode {
+            --primary: #00FFCC; /* BRAND COLOR: Changed from #5dade2 to #00FFCC */
+            --secondary: #ecf0f1; /* Light color for dark mode main text/headers */
+            --background: #1f2937; /* Very dark background */
+            --text-color-light: #bdc3c7; /* Lighter gray text */
+            --text-color-dark: #ecf0f1; /* White/Off-white text */
+            --card-bg-light: #2c3e50; /* Darker card background */
+            --card-bg-nav: #2c3e50;
+        }
+
+        /* Base Styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            scroll-behavior: smooth;
+            color: var(--text-color-dark); /* Default text color (main headers/text) */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        /* Apply background/text colors dynamically using variables */
+        .bg-white { background-color: var(--card-bg-light) !important; }
+        .bg-secondary { background-color: var(--card-bg-dark) !important; }
+        .text-gray-900 { color: var(--text-color-dark) !important; }
+        .text-gray-600 { color: var(--text-color-light) !important; }
+        .text-gray-700 { color: var(--text-color-light) !important; }
+        .text-secondary { color: var(--text-color-dark) !important; }
+        
+        /* Brand Color Mappings */
+        .text-blue-600 { color: var(--primary) !important; }
+        .hover\:text-blue-600:hover { color: var(--primary) !important; }
+        /* Added for Connect page colors */
+        .text-blue-500 { color: var(--primary) !important; }
+        .hover\:text-blue-500:hover { color: var(--primary) !important; }
+        .border-blue-500 { border-color: var(--primary) !important; }
+        /* End Brand Color Mappings */
+        
+        .text-blue-800 { color: var(--text-color-dark) !important; } /* Makes skill pills readable */
+        .bg-blue-100 { background-color: var(--background) !important; } /* Makes skill pills blend */
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; }
+        body.dark-mode .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important; }
+
+        /* Navbar Customization */
+        .navbar {
+            background-color: var(--card-bg-nav) !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .navbar {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+            border-color: #3f5060; /* Subtle dark mode border */
+        }
+        body.dark-mode .navbar .nav-links {
+             background-color: var(--card-bg-nav) !important;
+             border-color: #3f5060;
+        }
+
+        /* Navbar Logo */
+        body.dark-mode .logo {
+            color: var(--secondary) !important; 
+        }
+        body.dark-mode .logo:hover {
+            color: var(--primary) !important;
+        }
+
+        /* Page Content Display */
+        .page-content {
+            display: none;
+            padding-top: 5rem; /* Space below sticky navbar */
+        }
+        .page-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Logo Animation CSS (Section 4 on About Me) --- */
+        .logo-carousel-container {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo-carousel {
+            display: flex;
+            width: max-content;
+            /* Adjust duration if needed based on number of items */
+            animation: scroll-right-to-left 30s linear infinite; 
+        }
+
+        .logo-item {
+            padding: 1.5rem 3rem;
+            min-width: 150px;
+            font-size: 2.5rem;
+            color: var(--text-color-dark); /* Use dark text color */
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .logo-item:hover {
+            opacity: 1;
+        }
+        body.dark-mode .logo-item {
+            color: var(--text-color-light); /* Lighter text color in dark mode */
+        }
+
+        @keyframes scroll-right-to-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Move half the length for continuous loop */
+        }
+
+        /* Mobile Navbar Menu Open State */
+        .nav-links.open {
+            display: flex !important;
+        }
+        
+        /* Project Card Styling (Now used for both Projects and Certificates) */
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer; /* Indicate interactivity for display items */
+        }
+        .project-card:hover {
+            /* Updated shadow to use RGBA of #00FFCC */
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 255, 204, 0.4); 
+        }
+        
+        /* Image placeholder styling */
+        .image-placeholder-container {
+            height: 10rem; /* h-40 */
+            background-color: var(--background); /* bg-gray-100 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem; /* mb-4 */
+            border-radius: 0.5rem; /* rounded-lg */
+            overflow: hidden;
+        }
+        .image-placeholder-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Styling for the anchor tag wrapper around images */
+        .project-card a.block {
+            text-decoration: none; /* Remove underline from image links */
+            color: inherit; /* Ensure text color inheritance */
+        }
+
+        /* Connect Page: Force form elements to use dark text in dark mode for readability */
+        body.dark-mode #connect-page textarea {
+            color: #1f2937 !important; /* Near-black text color for contrast against light background */
+            background-color: #ffffff !important; /* Ensure the background is white/light */
+            border-color: #3f5060 !important; /* Darker border color */
+        }
+        /* Ensure the placeholder is visible and dark grey */
+        body.dark-mode #connect-page textarea::placeholder {
+            color: #6b7280 !important;
+        }
+
+
+        /* Footer */
+        footer {
+            background-color: var(--text-color-dark) !important;
+        }
+        body.dark-mode footer {
+            background-color: var(--card-bg-dark) !important;
+        }
+
+        /* --- Image Modal/Popup Styling --- */
+        .image-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        /* Wrapper for centering image and link/button */
+        .modal-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            max-width: 90%; 
+            max-height: 90%;
+            margin: auto;
+        }
+
+        .modal-content {
+            display: block;
+            width: 100%;
+            max-width: 100%; 
+            max-height: 85%; /* Reduced slightly to make room for link */
+            height: auto;
+            object-fit: contain;
+            animation: zoomIn 0.3s;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <header class="navbar fixed top-0 w-full bg-white z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="">
+            
+                <div class="flex-shrink-0">
+                <a href="#about" class="logo text-2xl font-extrabold text-gray-900 tracking-wider hover:text-blue-600 transition" data-page="about">
+                   Ibrahim Hossain
+                </a>
+            </div>
+            </div>
+            <nav class="hidden md:flex nav-links space-x-8">
+                <a href="#about" class="text-gray-600 hover:text-blue-600 px-3 py-2 font-medium transition" data-page="about">About Me</a>
+                <a href="#display" class="text-gray-600 hover:text-blue-600 px-3 py-2 font-medium transition" data-page="display">Display</a>
+                <a href="#connect" class="text-gray-600 hover:text-blue-600 px-3 py-2 font-medium transition" data-page="connect">Connect</a>
+            </nav>
+
+            <div class="flex items-center">
+                <button id="darkModeToggle" class="p-2 text-gray-500 hover:text-blue-600 rounded-md focus:outline-none transition mr-4 md:mr-0">
+                    <i id="darkModeIcon" class="fas fa-moon text-xl"></i>
+                </button>
+
+                <button id="navToggle" class="md:hidden p-2 text-gray-500 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <nav id="navLinks" class="nav-links hidden md:hidden flex-col bg-white border-t border-gray-100 pb-2">
+            <a href="#about" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 transition" data-page="about">About Me</a>
+            <a href="#display" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 transition" data-page="display">Display</a>
+            <a href="#connect" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 transition" data-page="connect">Connect</a>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- about-page start -->
+
+        <section id="about-page" class="page-content"> 
+            <div class="py-12">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-10 p-6 bg-white rounded-xl shadow-lg mb-16">
+                    <div class="md:w-1/2 text-center md:text-left">
+                        <p class="text-xl text-gray-600">Hi there, I'm</p>
+                        <h1 class="text-6xl font-extrabold text-gray-900 mb-2">Ibrahim Hossain</h1>
+                        <h2 class="text-2xl text-blue-600 font-semibold mt-1">Web Developer & Graphics Designer</h2>
+                        <p class="mt-4 text-gray-600 max-w-lg">Ibrahim Hossain is a skilled web developer with expertise in WordPress, responsive web design, and SEO optimization. With a passion for creating user-friendly, fast, and visually engaging websites, Ibrahim Hossain builds custom WordPress sites that are both functional and SEO-friendly. From personal blogs to business websites, each project is designed to boost online visibility and performance. With a deep understanding of HTML, CSS, JavaScript, and modern design trends, Ibrahim Hossain delivers professional solutions tailored to client needs. For businesses seeking an experienced developer to enhance their digital presence, Ibrahim Hossain is the perfect choice!</p>
+                        
+                    </div>
+                    <div class="md:w-1/2 flex justify-center md:justify-end">
+                        <div class="w-64 h-64 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden shadow-2xl border-4 border-blue-400"><img src="Untitled design (4).png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                             </div>
+                             
+                    </div>
+                    
+                </div>
+                <!-- social-media start -->
+                   
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-secondary mb-8"></h2>
+                    <div class="logo-carousel-container bg-white">
+                        <div class="logo-carousel">
+                            <div class="logo-item"><a href="https://www.youtube.com/" target="_blank" class="hover:text-red-500 transition flex items-center"><i class="fab fa-youtube mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.instagram.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-instagram mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.linkedin.com/in/ibrahimhosaain1997/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-linkedin mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://x.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-twitter mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://github.com/Al-Dustan" target="_blank" class="hover:text-gray-400 transition flex items-center"><i class="fab fa-github mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.facebook.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-facebook-f mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://wa.me/8801910884801" target="_blank" class="hover:text-green-400 transition flex items-center"><i class="fab fa-whatsapp mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.youtube.com/" target="_blank" class="hover:text-red-500 transition flex items-center"><i class="fab fa-youtube mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.instagram.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-instagram mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.linkedin.com/in/ibrahimhosaain1997/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-linkedin mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://x.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-twitter mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://github.com/Al-Dustan" target="_blank" class="hover:text-gray-400 transition flex items-center"><i class="fab fa-github mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.facebook.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-facebook-f mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://wa.me/8801910884801" target="_blank" class="hover:text-green-400 transition flex items-center"><i class="fab fa-whatsapp mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.youtube.com/" target="_blank" class="hover:text-red-500 transition flex items-center"><i class="fab fa-youtube mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.instagram.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-instagram mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.linkedin.com/in/ibrahimhosaain1997/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-linkedin mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://x.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-twitter mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://github.com/Al-Dustan" target="_blank" class="hover:text-gray-400 transition flex items-center"><i class="fab fa-github mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://www.facebook.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-facebook-f mr-2"></i></a></div>
+                            <div class="logo-item"><a href="https://wa.me/8801910884801" target="_blank" class="hover:text-green-400 transition flex items-center"><i class="fab fa-whatsapp mr-2"></i></a></div>
+                            </div>
+                    </div>
+                </div>
+                <!-- social-media end -->
+                <!-- about-me ned -->
+                <!-- My Projects start -->
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-secondary mb-10 pb-4 border-b-2 border-gray-300">My Projects</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <a href="https://al-dustan.github.io/Interior/" target="_blank" class="text-gray-600 hover:text-green-500">
+                             <div class="project-card rounded-xl overflow-hidden shadow-lg bg-secondary text-white">
+                            <img src="web_design-7.png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                
+                                <h3 class="text-2xl font-semibold mb-1">VISIONARY</h3>
+                                <p class="text-base text-gray-400">Modern Interior Website</p>
+                            </div>
+                        </div>
+                        </a>
+
+                         <a href="https://al-dustan.github.io/Portfolio./" target="_blank" class="text-gray-600 hover:text-green-500">
+                             <div class="project-card rounded-xl overflow-hidden shadow-lg bg-secondary text-white">
+                            <img src="web_design-16.png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-semibold mb-1">Portfolio Site V2</h3>
+                                <p class="text-base text-gray-400">HTML, CSS & JS</p>
+                            </div>
+                        </div>
+                        </a>
+
+                         <a href="#" target="_blank" class="text-gray-600 hover:text-green-500">
+                             <div class="project-card rounded-xl overflow-hidden shadow-lg bg-secondary text-white">
+                            <img src="web_design-15.png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                
+                                <h3 class="text-2xl font-semibold mb-1">Bangla Text-to-Voice AI</h3>
+                                <p class="text-base text-gray-400">Bangla Text-to-Voice AI</p>
+                            </div>
+                        </div>
+                        </a>
+
+                       
+
+                        <a href="https://al-dustan.github.io/dynamic_Invioc/" target="_blank" class="text-gray-600 hover:text-green-500">
+                             <div class="project-card rounded-xl overflow-hidden shadow-lg bg-secondary text-white">
+                            <img src="web_design-3.png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-semibold mb-1">Invoice Tally</h3>
+                                <p class="text-base text-gray-400">Tally Invoice & Analytics Generator Website</p>
+                            </div>
+                        </div>
+                        </a>
+                        
+
+                        
+                        <a href="_Takafy_3D_19202999.apk" target="_blank" class="text-gray-600 hover:text-green-500">
+                             <div class="project-card rounded-xl overflow-hidden shadow-lg bg-secondary text-white">
+                            <img src="web_design-17.png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-semibold mb-1">Finance Tracker Mobile App </h3>
+                                <p class="text-base text-gray-400">Takafy 3D Finance Tracker Mobile App</p>
+                            </div>
+                        </div>
+                        </a>
+
+
+                        <a href="https://al-dustan.github.io/CV_Maker/" target="_blank" class="text-gray-600 hover:text-green-500">
+                             <div class="project-card rounded-xl overflow-hidden shadow-lg bg-secondary text-white">
+                            <img src="web_design-18.png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-semibold mb-1">AI CV Pro Maker </h3>
+                                <p class="text-base text-gray-400">CV Maker Website</p>
+                            </div>
+                        </div>
+                        </a>
+
+                       
+                    </div>
+                </div>
+                <!-- My Projects end -->
+                 <!-- My Wordpress Projects start -->
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-secondary mb-10 pb-4 border-b-2 border-gray-300">My WordPress Projects</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <a href="https://compasstradings.com/" target="_blank" class="text-gray-600 hover:text-green-500">
+                             <div class="project-card rounded-xl overflow-hidden shadow-lg bg-secondary text-white">
+                            <img src="web_design-12.png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                
+                                <h3 class="text-2xl font-semibold mb-1">Compass Tradings</h3>
+                                <p class="text-base text-gray-400">foshan clothing brand Wordpress website.</p>
+                            </div>
+                        </div>
+                        </a>
+
+                         <a href="https://bbt.sadat.us/" target="_blank" class="text-gray-600 hover:text-green-500">
+                             <div class="project-card rounded-xl overflow-hidden shadow-lg bg-secondary text-white">
+                            <img src="web_design-11.png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-semibold mb-1">BBT limited</h3>
+                                <p class="text-base text-gray-400">SIM Maker Company Limited Wordpress Website.</p>
+                            </div>
+                        </div>
+                        </a>
+
+                         <a href="https://www.saturn-trade.com/" target="_blank" class="text-gray-600 hover:text-green-500">
+                             <div class="project-card rounded-xl overflow-hidden shadow-lg bg-secondary text-white">
+                            <img src="web_design-10.png" 
+                                alt="E-commerce Platform Project" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                
+                                <h3 class="text-2xl font-semibold mb-1">Saturn Trade</h3>
+                                <p class="text-base text-gray-400">IT-Farm Corporation Wordpress website.</p>
+                            </div>
+                        </div>
+                        </a>
+
+                       
+                    </div>
+                </div>
+                <!-- My Wordpress Projects end -->
+                <!-- My Core Skills start -->
+
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-secondary mb-10 pb-4 border-b-2 border-gray-300">My Core Skills</h2>
+                    <div class="flex flex-wrap justify-center gap-6 text-lg ">
+
+                        
+                        <span class="text-2xl text-blue-600 mt-1 rounded-full font-medium shadow-sm">HTML5 / CSS3</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">JavaScript (ES6+)</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Responsive Design</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Tailwind CSS</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">UI/UX Design</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Adobe Photoshop/Illustrator</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Git & GitHub</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Wordpress</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Dynamics NAV/ Multiple ISP</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">data security/ Cyber security</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Cyber Threat Intelligence</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Cyber Threat Intelligence/ Server Setup</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Server Administration</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Microsoft SQL Server</span>
+                        <span class="text-2xl text-blue-600 px-4 py-2 rounded-full font-medium shadow-sm">Front-End Development</span>
+                    </div>
+                </div>
+                 <!-- My Core Skills end -->
+                <!-- Tools & Technologies start -->
+
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-secondary mb-8">Tools & Technologies</h2>
+                    <div class="logo-carousel-container bg-white">
+                        <div class="logo-carousel">
+                            <div class="logo-item"><i class="fab fa-html5 text-orange-600"></i></div>
+                            <div class="logo-item"><i class="fab fa-css3-alt text-blue-600"></i></div>
+                            <div class="logo-item"><i class="fab fa-js-square text-yellow-500"></i></div>
+                            <div class="logo-item"><i class="fab fa-react text-blue-400"></i></div>
+                            <div class="logo-item"><i class="fab fa-github text-gray-800"></i></div>
+                            <div class="logo-item"><i class="fas fa-palette text-pink-600"></i></div>
+                            <div class="logo-item"><i class="fas fa-paint-brush text-purple-600"></i></div>
+                            <div class="logo-item"><i class="fab fa-html5 text-orange-600"></i></div>
+                            <div class="logo-item"><i class="fab fa-css3-alt text-blue-600"></i></div>
+                            <div class="logo-item"><i class="fab fa-js-square text-yellow-500"></i></div>
+                            <div class="logo-item"><i class="fab fa-react text-blue-400"></i></div>
+                            <div class="logo-item"><i class="fab fa-github text-gray-800"></i></div>
+                            <div class="logo-item"><i class="fas fa-palette text-pink-600"></i></div>
+                            <div class="logo-item"><i class="fas fa-paint-brush text-purple-600"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tools & Technologies end -->
+                <!-- Working Experience start -->
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-secondary mb-10 pb-4 border-b-2 border-gray-300">Working Experience</h2>
+                    <div class="space-y-8">
+                        <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                            <h3 class="text-2xl font-semibold text-gray-900">Web Developer</h3>
+                            <p class="text-blue-600">Freelancer. | Jan 2023 - Present</p>
+                            <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1 ml-4">
+                                <li>Web Developer & Digital Specialist | 2021-Present (3+ Years)
+Developed, customized, and maintained dynamic, responsive websites using HTML, CSS, and JavaScript, ensuring cross-browser compatibility and high-quality user experience.
+Specialized in back-end customization and database management, including theme and plugin modification within WordPress environments. Applied knowledge of SEO strategies to improve search visibility and managed digital operations for client e-commerce platforms (e.g., Daraz, Facebook shops) Collaborated effectively with content and design teams to translate UI/UX specifications into polished, functional web layouts.Debugged, troubleshot, and fixed critical website-related issues, maintaining system security and stability under tight deadlines.</li>
+                                
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                            <h3 class="text-2xl font-semibold text-gray-900">Senior IT Executive</h3>
+                            <p class="text-blue-600">FONSBD | Sep 2023 - Present</p>
+                            <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1 ml-4">
+                                <li>Key Responsibilities:
+Website maintenance services.
+Manage and configure MikroTik routers and multiple ISP connections.
+commercial-grade security camera solutions designed for enterprise environments, often managed by IT teams, that incorporate features like Al analytics, remote access, scalability, and integration with other business systems like access control
+Maintain and troubleshoot company hardware (PCs, printers, and network devices).
+Provide technical support for office systems and users.
+Administer and support ERP (Dynamics NAV) and Zoho applications.
+Ensure data security, backups, and smooth IT operations.
+Coordinate with vendors for repair, warranty, or service issues.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                            <h3 class="text-2xl font-semibold text-gray-900">Graphics Design</h3>
+                            <p class="text-blue-600">Freelancer. | Jan 2015 - Present</p>
+                            <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1 ml-4">
+                                <li>Designed over 100 marketing assets including logos, banners, and social media content.</li>
+                            </ul>
+                        </div>
+                         
+                    </div>
+                </div>
+                <!-- Working Experience end -->
+                <!-- Certificates start -->
+
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-secondary mb-10 pb-4 border-b-2 border-gray-300">Certificates</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        
+                        <div class="project-card certificate-item rounded-xl overflow-hidden shadow-lg bg-secondary text-white block cursor-pointer"
+                            data-image-url="CERTIFICATE.png" 
+                            data-certificate-link="Great Learning Front End Web Development Essentials CERTIFICATE.pdf">
+                            <img src="CERTIFICATE.png" 
+                                alt="Front-End Development Libraries Certificate" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-semibold mb-1">Great Learning</h3>
+                                <p class="text-base text-gray-400">Front End Web Development Essentials</p>
+                            </div>
+                        </div>
+                        
+                        <div class="project-card certificate-item rounded-xl overflow-hidden shadow-lg bg-secondary text-white block cursor-pointer"
+                            data-image-url="CERTIFICATE_2.png"
+                            data-certificate-link="CYBER HYGIENE – TRAINING COMPLETION CERTIFICATE.pdf">
+                            <img src="CERTIFICATE_2.png" 
+                                alt="Complete Graphics Design Course Certificate" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-semibold mb-1">The Asia Foundation</h3>
+                                <p class="text-base text-gray-400">CYBER HYGIENE TRAINING COMPLETION</p>
+                            </div>
+                        </div>
+
+                         <div class="project-card certificate-item rounded-xl overflow-hidden shadow-lg bg-secondary text-white block cursor-pointer"
+                            data-image-url="CERTIFICATE_3.png"
+                            data-certificate-link="Alison Web Accessibility Development CERTIFICATE.pdf">
+                            <img src="CERTIFICATE_3.png" 
+                                alt="Complete Graphics Design Course Certificate" 
+                                class="w-full h-auto object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-semibold mb-1">Alison Course</h3>
+                                <p class="text-base text-gray-400">Web Accessibility Development</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                 <!-- Certificates end -->
+                </div>
+        </section>
+        <!-- about-page end -->
+
+        <!-- display-page start -->
+
+        <section id="display-page" class="page-content">
+            <div class="py-12">
+                <h1 class="text-5xl font-extrabold text-center text-secondary mb-12">Creative Showcase</h1>
+
+                <!-- Image start -->                
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-primary mb-10 pb-4 border-b-2 border-gray-300">LOGO</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo9.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo9.png" alt="Concept Art Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Suit Brands LOGO</h3>
+                            <p class="text-sm text-gray-500">Tailored Suit Brands.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo11.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo11.png" alt="Photo Editing Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Company LOGO</h3>
+                            <p class="text-sm text-gray-500">Advanced color correction and retouching LOGO.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo12.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo12.png" alt="Vector Illustration Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Youtube Channel LOGO</h3>
+                            <p class="text-sm text-gray-500">LOGO Graphic For Youtube Channel Use.</p>
+                        </div>
+
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo19.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo19.png" alt="Concept Art Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Name LOGO</h3>
+                            <p class="text-sm text-gray-500">A high-resolution LOGO graphic.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo17.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo17.png" alt="Photo Editing Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Suit Brands LOGO</h3>
+                            <p class="text-sm text-gray-500">Tailored Suit Brands LOGO.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo3.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo3.png" alt="Vector Illustration Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Youtube Channel LOGO</h3>
+                            <p class="text-sm text-gray-500">LOGO Graphic For Youtube Channel Use.</p>
+                        </div>
+
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo7.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo7.png" alt="Concept Art Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Suit Brands LOGO</h3>
+                            <p class="text-sm text-gray-500">Tailored Suit Brands.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo2.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo2.png" alt="Photo Editing Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Company LOGO</h3>
+                            <p class="text-sm text-gray-500">Advanced color correction and retouching LOGO.</p>
+                        </div>
+
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo13.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo13.png" alt="Concept Art Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Suit Brands LOGO</h3>
+                            <p class="text-sm text-gray-500">Tailored Suit Brands.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo8.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo8.png" alt="Photo Editing Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Company LOGO</h3>
+                            <p class="text-sm text-gray-500">Advanced color correction and retouching LOGO.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo14.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo14.png" alt="Vector Illustration Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Youtube Channel LOGO</h3>
+                            <p class="text-sm text-gray-500">LOGO Graphic For Youtube Channel Use.</p>
+                        </div>
+
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo5.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo5.png" alt="Concept Art Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Name LOGO</h3>
+                            <p class="text-sm text-gray-500">A high-resolution LOGO graphic.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo16.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo16.png" alt="Photo Editing Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Suit Brands LOGO</h3>
+                            <p class="text-sm text-gray-500">Tailored Suit Brands LOGO.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo18.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo18.png" alt="Vector Illustration Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Youtube Channel LOGO</h3>
+                            <p class="text-sm text-gray-500">LOGO Graphic For Youtube Channel Use.</p>
+                        </div>
+
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo4.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo4.png" alt="Concept Art Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Suit Brands LOGO</h3>
+                            <p class="text-sm text-gray-500">Tailored Suit Brands.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo10.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo10.png" alt="Photo Editing Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Company LOGO</h3>
+                            <p class="text-sm text-gray-500">Advanced color correction and retouching LOGO.</p>
+                        </div>
+
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo1.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo1.png" alt="Concept Art Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Name LOGO</h3>
+                            <p class="text-sm text-gray-500">A high-resolution LOGO graphic.</p>
+                        </div>
+
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo15.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo15.png" alt="Vector Illustration Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Youtube Channel LOGO</h3>
+                            <p class="text-sm text-gray-500">LOGO Graphic For Youtube Channel Use.</p>
+                        </div>
+
+                        
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo6.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo6.png" alt="Photo Editing Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Suit Brands LOGO</h3>
+                            <p class="text-sm text-gray-500">Tailored Suit Brands LOGO.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="logo20.png">
+                                <div class="image-placeholder-container">
+                                    <img src="logo20.png" alt="Vector Illustration Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Youtube Channel LOGO</h3>
+                            <p class="text-sm text-gray-500">LOGO Graphic For Youtube Channel Use.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Image end -->
+                <!-- T-Shirts start -->
+
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-primary mb-10 pb-4 border-b-2 border-gray-300">T-Shirts</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Mockup3.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Mockup3.png" alt="Event Merch Design Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Event Merch Design</h3>
+                            <p class="text-sm text-gray-500">Screen-print ready design for a coding conference.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Mockup2.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Mockup2.png" alt="Vintage Graphic Tee Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Vintage Graphic Tee</h3>
+                            <p class="text-sm text-gray-500">Distressed look with retro typography.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Mockup1.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Mockup1.png" alt="Minimalist Pocket Print Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Minimalist Pocket Print</h3>
+                            <p class="text-sm text-gray-500">Small, detailed graphic for a pocket location.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- T-Shirts end -->
+                <!-- Banners start -->
+
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-primary mb-10 pb-4 border-b-2 border-gray-300">Banners</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="banner1.png">
+                                <div class="image-placeholder-container">
+                                    <img src="banner1.png" alt="Roll-up Banner Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Tailored Suit Brands Ads Banner</h3>
+                            <p class="text-sm text-gray-500">Bang a Man Fashion Tailored Suit Brands.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="banner2.png">
+                                <div class="image-placeholder-container">
+                                    <img src="banner2.png" alt="Website Hero Banner Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Social Media Header</h3>
+                            <p class="text-sm text-gray-500">Responsive banner design for LinkedIn/Facebook.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="banner3.png">
+                                <div class="image-placeholder-container">
+                                    <img src="banner3.png" alt="Social Media Header Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Anime Website Ads Banner</h3>
+                            <p class="text-sm text-gray-500">Optimized graphic for a landing page Anime9H section.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Banners end -->
+                <!-- Posters start -->
+
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-primary mb-10 pb-4 border-b-2 border-gray-300">Posters</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Poster1.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Poster1.png" alt="Movie Poster Concept Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Movie Poster Concept</h3>
+                            <p class="text-sm text-gray-500">Illustrative design with moody color grading.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Poster3.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Poster3.png" alt="Event Announcement Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Event Announcement</h3>
+                            <p class="text-sm text-gray-500">Typographic poster design for a music festival.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Poster4.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Poster4.png" alt="Minimalist Art Print Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Minimalist Art Print</h3>
+                            <p class="text-sm text-gray-500">Abstract poster using geometric shapes.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Poster2.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Poster2.png" alt="Event Announcement Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Event Announcement</h3>
+                            <p class="text-sm text-gray-500">Typographic poster design for a music festival.</p>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- Posters end -->
+                <!-- UX/UI start -->
+
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-primary mb-10 pb-4 border-b-2 border-gray-300">UX/UI</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="UI_UX1.png">
+                                <div class="image-placeholder-container">
+                                    <img src="UI_UX1.png" alt="Mobile App Redesign Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">SCF</h3>
+                            <p class="text-sm text-gray-500">Community foundation.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="UI_UX2.png">
+                                <div class="image-placeholder-container">
+                                    <img src="UI_UX2.png" alt="Dashboard Prototype Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">D-NOS</h3>
+                            <p class="text-sm text-gray-500"> The Future of Delivery Is  Here.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="UI_UX3.png">
+                                <div class="image-placeholder-container">
+                                    <img src="UI_UX3.png" alt="E-commerce Checkout Flow Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Personal Blog.</h3>
+                            <p class="text-sm text-gray-500">Optimizing the user journey for higher conversions.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- UX/UI end -->
+                <!-- Presentations start -->
+
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-primary mb-10 pb-4 border-b-2 border-gray-300">Presentations</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Presentation1.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Presentation1.png" alt="Pitch Deck Design Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">CO. TRD Presentation</h3>
+                            <p class="text-sm text-gray-500">Business Proposal Presentation.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Presentation2.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Presentation2.png" alt="Webinar Slides Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">COMPASS TRADING Presentation</h3>
+                            <p class="text-sm text-gray-500">Clean, visual slides optimized Company Presentation.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Presentation3.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Presentation3.png" alt="Annual Report Template Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">FONSBD Company Presentation</h3>
+                            <p class="text-sm text-gray-500">Fiber Optic Network Solutions Bangladesh Ltd presentation.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Presentations end -->
+                <!-- Thumbnails start -->
+
+                <div class="mb-16">
+                    <h2 class="text-4xl font-bold text-center text-primary mb-10 pb-4 border-b-2 border-gray-300">Thumbnails</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Thumbnail1.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Thumbnail1.png" alt="YouTube Tech Review Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">App Review</h3>
+                            <p class="text-sm text-gray-500">Finance Tracker App Review.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Thumbnail2.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Thumbnail2.png" alt="Vlog Travel Series Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Vlog Travel Series</h3>
+                            <p class="text-sm text-gray-500">Bright, emotive thumbnail using custom photography.</p>
+                        </div>
+                        <div class="project-card bg-white p-6 rounded-xl shadow-md text-center border">
+                            <a href="#" class="block portfolio-item" data-image-url="Thumbnail3.png">
+                                <div class="image-placeholder-container">
+                                    <img src="Thumbnail3.png" alt="Podcast Episode Cover Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                            <h3 class="text-xl font-semibold">Surviving Adventure</h3>
+                            <p class="text-sm text-gray-500">the Sundarban forest My Dream Adventure.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Thumbnails end -->
+                </div>
+        </section>
+        <!-- display-page end -->
+
+        <!-- connect-page start -->
+
+        <section id="connect-page" class="page-content">
+            <div class="py-12">
+                <h1 class="text-5xl font-extrabold text-center text-secondary mb-12">Let's Connect & Collaborate</h1>
+
+                <div class="flex flex-col md:flex-row items-stretch justify-between gap-10">
+                    <div class="md:w-1/2 p-8 bg-white rounded-xl shadow-lg border-l-4 border-blue-500">
+                        <h2 class="text-3xl font-bold text-secondary mb-6">Contact Information</h2>
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <i class="fas fa-envelope text-blue-500 text-2xl mt-1 w-8"></i>
+                                <div>
+                                    <p class="text-lg font-semibold">Email Address:</p>
+                                    <a href="mailto:imon4646@gmail.com" class="text-gray-600 hover:text-blue-500">imon4646@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-phone text-blue-500 text-2xl mt-1 w-8"></i>
+                                <div>
+                                    <p class="text-lg font-semibold">Phone Number:</p>
+                                    <a href="tel:+8801910884801" class="text-gray-600 hover:text-blue-500">+880 1910884801</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fab fa-whatsapp text-green-500 text-2xl mt-1 w-8"></i>
+                                <div>
+                                    <p class="text-lg font-semibold">WhatsApp:</p>
+                                    <a href="https://wa.me/8801910884801" target="_blank" class="text-gray-600 hover:text-green-500">+880 1910-884801</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fab fa-linkedin text-blue-700 text-2xl mt-1 w-8"></i>
+                                <div>
+                                    <p class="text-lg font-semibold">LinkedIn:</p>
+                                    <a href="https://www.linkedin.com/in/ibrahimhosaain1997/" target="_blank" class="text-gray-600 hover:text-blue-700">ibrahimhosaain1997</a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                                                                                            <!-- bg-gray-100 rounded-xl shadow-lg -->
+                    <div class="md:w-1/1 flex items-center justify-center p-8 rounded-xl">
+                        <a href="#" class="block portfolio-item" data-image-url="ID.png">
+                                <div class="image-placeholder-container">
+                                    <img src="ID.png" alt="Vlog Travel Series Placeholder" class="object-cover">
+                                </div>
+                            </a>
+                         </div>
+                </div>
+
+                <div class="mt-16 bg-white p-8 rounded-xl shadow-lg border-t-4 border-green-500">
+                    <h2 class="text-3xl font-bold text-center text-secondary mb-6">Send a Quick Message via WhatsApp</h2>
+                    <form action="https://wa.me/8801910884801" method="GET" target="_blank" class="max-w-xl mx-auto space-y-4">
+                        <textarea name="text" placeholder="Type your message here... Let me know how I can help you with your project or design needs." rows="6" required class="w-full p-4 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 resize-none"></textarea>
+                        <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center transition shadow-md">
+                            Send Message Directly <i class="fab fa-whatsapp ml-2 text-xl"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+         <!-- connect-page end -->
+
+        </main>
+
+    <!-- footer-section start -->
+    <footer class="bg-gray-800 text-white py-10 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-2xl font-bold mb-4"></h3>
+            <h2 class="text-2xl text-blue-600 font-semibold mt-1">Follow Me</h2>
+            <div class="flex flex-wrap justify-center gap-6 mb-8 text-lg">
+                <a href="mailto:imon4646@gmail.com" class="hover:text-blue-400 transition flex items-center"><i class="fas fa-envelope mr-2"></i> Email</a>
+                <a href="tel:+8801910884801" class="hover:text-blue-400 transition flex items-center"><i class="fas fa-phone mr-2"></i> Phone</a>
+                <a href="https://wa.me/8801910884801" target="_blank" class="hover:text-green-400 transition flex items-center"><i class="fab fa-whatsapp mr-2"></i> WhatsApp</a>
+                <a href="https://www.linkedin.com/in/ibrahimhosaain1997/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-linkedin mr-2"></i> LinkedIn</a>
+                <a href="https://www.facebook.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-facebook-f mr-2"></i> Facebook</a>
+                <a href="https://x.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-twitter mr-2"></i> Twitter</a>
+                <a href="https://www.instagram.com/" target="_blank" class="hover:text-blue-400 transition flex items-center"><i class="fab fa-instagram mr-2"></i> Instagram</a>
+                <a href="https://github.com/Al-Dustan" target="_blank" class="hover:text-gray-400 transition flex items-center"><i class="fab fa-github mr-2"></i> GitHub</a>
+                <a href="https://www.youtube.com/" target="_blank" class="hover:text-red-500 transition flex items-center"><i class="fab fa-youtube mr-2"></i> YouTube</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2025 Ibrahim Hossain Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+    <!-- footer-section end -->
+     
+    <div id="imageModal" class="image-modal">
+        <span class="modal-close" id="closeModal">&times;</span>
+        <div class="modal-content-wrapper">
+            <img class="modal-content" id="modalImage">
+            <a id="certificateLink" href="#" target="_blank" 
+               class="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors text-center"
+               style="display: none; width: 100%; max-width: 300px;">
+                View Certificate Verification Link
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggle = document.getElementById('navToggle');
+            const navLinksMobile = document.getElementById('navLinks');
+            const allNavLinks = document.querySelectorAll('a[data-page]');
+            const pages = document.querySelectorAll('.page-content');
+            
+            // --- Dark Mode Variables ---
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeIcon = document.getElementById('darkModeIcon');
+            const body = document.body;
+
+            // --- Dark Mode Logic ---
+            function enableDarkMode() {
+                body.classList.add('dark-mode');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+
+            function disableDarkMode() {
+                body.classList.remove('dark-mode');
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+            
+            // Load saved theme preference or check system preference
+            function loadTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+                if (savedTheme === 'dark' || (savedTheme === null && prefersDark)) {
+                    enableDarkMode();
+                } else {
+                    disableDarkMode();
+                }
+            }
+            
+            // Toggle Listener
+            darkModeToggle.addEventListener('click', () => {
+                if (body.classList.contains('dark-mode')) {
+                    disableDarkMode();
+                } else {
+                    enableDarkMode();
+                }
+            });
+
+            // Initialize theme on load
+            loadTheme();
+
+
+            // --- Page Routing Logic ---
+            function showPage(targetPageId) {
+                // Hide all pages and remove active styling from all links
+                pages.forEach(page => page.classList.remove('active'));
+                
+                allNavLinks.forEach(link => {
+                    link.classList.remove('text-blue-600', 'font-bold');
+                    link.classList.add('text-gray-600');
+                });
+
+                // Show the target page
+                const targetPage = document.getElementById(targetPageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+
+                // Update active link styling for the current page
+                allNavLinks.forEach(link => {
+                    if (link.dataset.page + '-page' === targetPageId) {
+                         link.classList.add('text-blue-600', 'font-bold');
+                         link.classList.remove('text-gray-600');
+                    }
+                });
+
+                // Scroll to top of the content area
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Handle Nav Link Clicks
+            allNavLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageName = link.getAttribute('data-page');
+                    const targetPageId = pageName + '-page';
+                    
+                    showPage(targetPageId);
+
+                    // Close mobile menu after selection
+                    if (navLinksMobile.classList.contains('open')) {
+                        // Use click event on toggle button to close
+                        navToggle.click();
+                    }
+                });
+            });
+
+            // Initial page load: Explicitly show the 'about' page on load
+            function initializePage() {
+                const defaultPageId = 'about-page';
+                showPage(defaultPageId);
+            }
+            
+            initializePage();
+
+
+            // --- Navbar Toggle Logic (Mobile Responsiveness) ---
+            navToggle.addEventListener('click', () => {
+                navLinksMobile.classList.toggle('open');
+                const icon = navToggle.querySelector('i');
+                if (navLinksMobile.classList.contains('open')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // --- Image Modal Logic ---
+            const imageModal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const closeModal = document.getElementById('closeModal');
+            const portfolioItems = document.querySelectorAll('.portfolio-item'); 
+            const certificateItems = document.querySelectorAll('.certificate-item'); // Targeting new class for certificates
+            const certificateLinkElement = document.getElementById('certificateLink'); // NEW element for verification link
+
+            // Function to open the modal, accepts an optional certificate link
+            function openModal(imgSrc, certificateLink = null) {
+                modalImage.src = imgSrc;
+                
+                // Handle the optional certificate link
+                if (certificateLink) {
+                    certificateLinkElement.href = certificateLink;
+                    certificateLinkElement.style.display = 'block'; // Show the link button
+                } else {
+                    certificateLinkElement.style.display = 'none'; // Hide the link button
+                }
+
+                imageModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling the body
+            }
+
+            // Function to close the modal
+            function closeModalFunction() {
+                imageModal.classList.remove('active');
+                document.body.style.overflow = ''; // Re-enable scrolling
+                // Clean up modal state
+                certificateLinkElement.style.display = 'none';
+                modalImage.src = '';
+            }
+
+            // Click listener for portfolio items on the display page (no verification link)
+            portfolioItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    const imageUrl = item.getAttribute('data-image-url');
+                    
+                    if (imageUrl) {
+                        openModal(imageUrl); // Calls openModal with image only
+                    }
+                });
+            });
+
+            // Click listener for certificate items on the about page (with verification link)
+            certificateItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    // Prevent propagation if an element inside the card was clicked, though unlikely with the new structure
+                    e.stopPropagation(); 
+                    
+                    const imageUrl = item.getAttribute('data-image-url');
+                    const certLink = item.getAttribute('data-certificate-link');
+                    
+                    if (imageUrl) {
+                        openModal(imageUrl, certLink); // Calls openModal with both image and link
+                    }
+                });
+            });
+
+            // Click listener for the close button
+            closeModal.addEventListener('click', closeModalFunction);
+
+            // Click listener for the modal overlay itself
+            imageModal.addEventListener('click', (e) => {
+                if (e.target === imageModal || e.target.closest('.modal-content-wrapper') === null && e.target !== modalImage && e.target !== certificateLinkElement) {
+                    closeModalFunction();
+                }
+            });
+
+            // Keyboard listener for ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === "Escape" && imageModal.classList.contains('active')) {
+                    closeModalFunction();
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
